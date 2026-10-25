@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0c0c0f" media="(prefers-color-scheme: dark)">
+  <meta name="description" content="Contact Gem Felix Otadoy, paraplanner.">
+  <title>Contact — Gem Felix Otadoy</title>
+  <link rel="icon" type="image/jpeg" href="/images/original-photo.jpeg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="mobile-header">
+    <a class="mobile-brand" href="/">Gem Felix Otadoy</a>
+    <nav class="mobile-nav" aria-label="Main navigation">
+      <a href="/about/">About</a><a href="/projects/">Projects</a><a href="/experience/">Experience</a><a href="/contact/" aria-current="page">Contact</a>
+    </nav>
+  </header>
+  <aside class="sidebar" aria-label="Site information">
+    <a class="sidebar-brand" href="/">Gem Felix Otadoy</a><p class="sidebar-role">Paraplanner</p>
+    <nav class="sidebar-nav" aria-label="Main navigation">
+      <a href="/">Home</a><a href="/about/">About</a><a href="/projects/">Projects</a><a href="/experience/">Experience</a><a href="/contact/" aria-current="page">Contact</a>
+    </nav>
+    <p class="sidebar-foot footer-note">Thoughtful plans. Clear next steps.</p>
+  </aside>
+  <main class="site-main" id="main">
+    <header class="page-heading">
+      <p class="section-label">04 — contact</p>
+      <h1>contact</h1>
+      <p>For professional enquiries, planning support, or a conversation about working together, I’d be glad to hear from you.</p>
+    </header>
+    <section class="content-block" aria-label="Contact details">
+      <h2>Let’s make the next step clear.</h2>
+      <p class="muted-copy">Email is the best way to get in touch.</p>
+      <a class="contact-address" href="mailto:otadoygemfelix@gmail.com">otadoygemfelix@gmail.com <span aria-hidden="true">↗</span></a>
+      <!-- <p class="contact-note">Replace this placeholder with your preferred contact email.</p> -->
+    </section>
+  </main>
+  <footer class="site-footer"><p class="footer-note">© 2026 Gem Felix Otadoy</p><p class="footer-note"><a href="/">Back to home ↗</a></p></footer>
+  <button class="game-launcher" type="button" aria-label="Open endless runner game" aria-haspopup="dialog" aria-controls="runner-dialog">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 8h10a4 4 0 0 1 3.8 5l-1 3.2a2.5 2.5 0 0 1-4.2 1L14 15h-4l-1.6 2.2a2.5 2.5 0 0 1-4.2-1l-1-3.2A4 4 0 0 1 7 8Zm0 2v2H5v2h2v2h2v-2h2v-2H9v-2H7Zm9 1h.1m2 3h.1" /></svg>
+    <span>Play</span>
+  </button>
+  <dialog class="runner-dialog" id="runner-dialog" aria-labelledby="runner-title">
+    <div class="runner-panel">
+      <header class="runner-header"><div><p class="runner-kicker">Tiny arcade</p><h2 id="runner-title">Pocket runner</h2></div><button class="runner-close" type="button" aria-label="Close game">×</button></header>
+      <div class="runner-scores" aria-label="Game scores"><p>Score <output id="runner-score" aria-live="off">0</output></p><p>Best <output id="runner-best">0</output></p></div>
+      <canvas id="runner-canvas" width="360" height="160" aria-label="Endless runner game. Jump over the blocks." tabindex="0"></canvas>
+      <p class="runner-status" id="runner-status" aria-live="polite">Jump over the blocks and see how far you can go.</p>
+      <div class="runner-controls"><button class="runner-start" type="button">Start run</button><button class="runner-jump" type="button" disabled>Jump</button><span class="runner-hint">Space / ↑ / tap</span></div>
+    </div>
+  </dialog>
+  <script src="/game.js" defer></script>
+</body>
+</html>
