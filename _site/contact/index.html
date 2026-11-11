@@ -6,7 +6,23 @@
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0c0c0f" media="(prefers-color-scheme: dark)">
-  <meta name="description" content="Contact Gem Felix Otadoy, paraplanner.">
+  <script>
+    try {
+      document.documentElement.dataset.theme = localStorage.getItem("portfolio-theme") || "system";
+    } catch (error) {
+      console.warn("Could not read the saved theme preference.", error);
+      document.documentElement.dataset.theme = "system";
+    }
+  </script>
+  <meta name="description" content="Get in touch with freelance video editor Gem Felix Otadoy about your next project.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Gem Felix Otadoy - Freelance Video Editor">
+  <meta property="og:title" content="Contact — Gem Felix Otadoy">
+  <meta property="og:description" content="Get in touch with freelance video editor Gem Felix Otadoy about your next project.">
+  <meta property="og:url" content="https://gemfelixotadoy.com/contact/">
+  <meta property="og:image" content="https://gemfelixotadoy.com/images/original-photo.jpeg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://gemfelixotadoy.com/contact/">
   <title>Contact — Gem Felix Otadoy</title>
   <link rel="icon" type="image/jpeg" href="/images/original-photo.jpeg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,45 +33,71 @@
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="mobile-header">
-    <a class="mobile-brand" href="/">Gem Felix Otadoy</a>
+    <a class="mobile-brand" href="/" data-portfolio-name>Gem Felix Otadoy</a>
     <nav class="mobile-nav" aria-label="Main navigation">
-      <a href="/about/">About</a><a href="/projects/">Projects</a><a href="/experience/">Experience</a><a href="/contact/" aria-current="page">Contact</a>
+      <a href="/projects/" >Work</a>
+      <a href="/services/" >Services</a>
+      <a href="/about/" >About</a>
+      <a href="/contact/" aria-current="page">Contact</a>
     </nav>
   </header>
   <aside class="sidebar" aria-label="Site information">
-    <a class="sidebar-brand" href="/">Gem Felix Otadoy</a><p class="sidebar-role">Paraplanner</p>
+    <a class="sidebar-brand" href="/" data-portfolio-name>Gem Felix Otadoy</a>
+    <p class="sidebar-role" data-portfolio-title>Video Editor</p>
     <nav class="sidebar-nav" aria-label="Main navigation">
-      <a href="/">Home</a><a href="/about/">About</a><a href="/projects/">Projects</a><a href="/experience/">Experience</a><a href="/contact/" aria-current="page">Contact</a>
+      <a href="/" >Home</a>
+      <a href="/projects/" >Selected work</a>
+      <a href="/services/" >Services</a>
+      <a href="/about/" >About</a>
+      <a href="/experience/" >Experience</a>
+      <a href="/contact/" aria-current="page">Contact</a>
     </nav>
-    <p class="sidebar-foot footer-note">Thoughtful plans. Clear next steps.</p>
+    <p class="sidebar-foot footer-note">Stories, shaped frame by frame.</p>
   </aside>
-  <main class="site-main" id="main">
+
+  <main class="site-main portfolio-main " id="main">
     <header class="page-heading">
-      <p class="section-label">04 — contact</p>
-      <h1>contact</h1>
-      <p>For professional enquiries, planning support, or a conversation about working together, I’d be glad to hear from you.</p>
-    </header>
-    <section class="content-block" aria-label="Contact details">
-      <h2>Let’s make the next step clear.</h2>
-      <p class="muted-copy">Email is the best way to get in touch.</p>
-      <a class="contact-address" href="mailto:otadoygemfelix@gmail.com">otadoygemfelix@gmail.com <span aria-hidden="true">↗</span></a>
-      <!-- <p class="contact-note">Replace this placeholder with your preferred contact email.</p> -->
-    </section>
-  </main>
-  <footer class="site-footer"><p class="footer-note">© 2026 Gem Felix Otadoy</p><p class="footer-note"><a href="/">Back to home ↗</a></p></footer>
-  <button class="game-launcher" type="button" aria-label="Open endless runner game" aria-haspopup="dialog" aria-controls="runner-dialog">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 8h10a4 4 0 0 1 3.8 5l-1 3.2a2.5 2.5 0 0 1-4.2 1L14 15h-4l-1.6 2.2a2.5 2.5 0 0 1-4.2-1l-1-3.2A4 4 0 0 1 7 8Zm0 2v2H5v2h2v2h2v-2h2v-2H9v-2H7Zm9 1h.1m2 3h.1" /></svg>
-    <span>Play</span>
-  </button>
-  <dialog class="runner-dialog" id="runner-dialog" aria-labelledby="runner-title">
-    <div class="runner-panel">
-      <header class="runner-header"><div><p class="runner-kicker">Tiny arcade</p><h2 id="runner-title">Pocket runner</h2></div><button class="runner-close" type="button" aria-label="Close game">×</button></header>
-      <div class="runner-scores" aria-label="Game scores"><p>Score <output id="runner-score" aria-live="off">0</output></p><p>Best <output id="runner-best">0</output></p></div>
-      <canvas id="runner-canvas" width="360" height="160" aria-label="Endless runner game. Jump over the blocks." tabindex="0"></canvas>
-      <p class="runner-status" id="runner-status" aria-live="polite">Jump over the blocks and see how far you can go.</p>
-      <div class="runner-controls"><button class="runner-start" type="button">Start run</button><button class="runner-jump" type="button" disabled>Jump</button><span class="runner-hint">Space / ↑ / tap</span></div>
+  <p class="section-label">05 — contact</p>
+  <h1>Let’s make something good.</h1>
+  <p>Have a project in mind? Tell me what you’re making.</p>
+</header>
+<section class="content-block contact-page-content" aria-label="Contact details">
+  <div class="contact-layout">
+    <div>
+      <p class="meta">Email</p>
+      <a class="contact-address" id="contact-email" href="mailto:otadoygemfelixtorrevillas@gmail.com">otadoygemfelixtorrevillas@gmail.com <span aria-hidden="true">↗</span></a>
     </div>
-  </dialog>
-  <script src="/game.js" defer></script>
+    <div>
+      <p class="meta">Location</p>
+      <p class="contact-location" id="contact-location"></p>
+    </div>
+  </div>
+  <div>
+    <p class="meta">Find me online</p>
+    <nav class="social-links contact-socials" id="social-links" aria-label="Social profiles"></nav>
+  </div>
+</section>
+
+  </main>
+
+  <div class="theme-dock" role="group" aria-label="Color theme">
+    <button class="theme-button" type="button" data-theme-choice="system" aria-label="Use system color theme" title="System">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"></rect><path d="M8 21h8m-4-4v4"></path></svg>
+    </button>
+    <button class="theme-button" type="button" data-theme-choice="light" aria-label="Use light theme" title="Light">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"></path></svg>
+    </button>
+    <button class="theme-button" type="button" data-theme-choice="dark" aria-label="Use dark theme" title="Dark">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.2 15.6A8.5 8.5 0 0 1 8.4 3.8 8.5 8.5 0 1 0 20.2 15.6Z"></path></svg>
+    </button>
+  </div>
+
+  <footer class="site-footer portfolio-footer">
+    <p class="footer-note">© 2026 <span data-portfolio-name>Gem Felix Otadoy</span> · <span data-portfolio-title>Video Editor</span></p>
+    <a class="footer-note" href="/">Back to home ↑</a>
+  </footer>
+
+  <script src="/portfolio-data.js" defer></script>
+  <script src="/portfolio.js" defer></script>
 </body>
 </html>
