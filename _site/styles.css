@@ -153,6 +153,71 @@ a:focus-visible {
   text-transform: uppercase;
 }
 
+.mobile-menu {
+  position: relative;
+}
+
+.mobile-menu-toggle {
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  place-items: center;
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  color: var(--ink);
+  cursor: pointer;
+  list-style: none;
+}
+
+.mobile-menu-toggle::-webkit-details-marker {
+  display: none;
+}
+
+.mobile-menu-toggle svg {
+  width: 1.15rem;
+  height: 1.15rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-width: 1.6;
+}
+
+.mobile-menu-toggle:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.mobile-nav {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  z-index: 4;
+  display: none;
+  min-width: 12rem;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  background: var(--background);
+  box-shadow: 0 12px 28px -16px color-mix(in srgb, var(--ink) 30%, transparent);
+}
+
+.mobile-menu[open] .mobile-nav {
+  display: flex;
+}
+
+.mobile-nav a {
+  padding: 0.65rem 0.75rem;
+  border-radius: 6px;
+}
+
+.mobile-nav a:hover,
+.mobile-nav a[aria-current="page"] {
+  background: var(--gray-50);
+}
+
 .mobile-nav a,
 .sidebar-nav a {
   color: var(--gray-500);
@@ -722,24 +787,6 @@ body a:focus-visible {
 
 @keyframes clock-glow {
   50% { box-shadow: 0 0 0 5px color-mix(in srgb, var(--ink) 4%, transparent); }
-}
-
-@media (max-width: 380px) {
-  .mobile-header {
-    min-height: 72px;
-    flex-wrap: wrap;
-    gap: 0.15rem;
-    padding-block: 0.5rem;
-  }
-
-  .mobile-nav {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .mobile-brand {
-    font-size: 11px;
-  }
 }
 
 @media (min-width: 640px) {
@@ -1897,5 +1944,36 @@ body a:focus-visible {
   .reveal-ready {
     opacity: 1;
     transform: none;
+  }
+}
+
+@media (max-width: 559px) {
+  .portfolio-hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .portfolio-hero .hero-copy {
+    display: contents;
+  }
+
+  .hero-portrait {
+    grid-column: 1;
+    grid-row: 1;
+    width: clamp(5rem, 24vw, 7rem);
+    margin: 0 auto 1rem;
+  }
+
+  .portfolio-hero h1,
+  .portfolio-hero .eyebrow,
+  .portfolio-hero .hero-intro,
+  .portfolio-hero .hero-hobbies,
+  .portfolio-hero .hero-socials,
+  .portfolio-hero .hero-contact {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .portfolio-hero h1 {
+    white-space: normal;
   }
 }
