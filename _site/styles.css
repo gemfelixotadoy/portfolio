@@ -19,7 +19,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]):not([data-theme="dark"]) {
     color-scheme: dark;
     --background: #0c0c0f;
     --ink: #f4f4f5;
@@ -30,6 +30,30 @@
     --gray-400: #8a8a92;
     --gray-500: #a0a0a8;
   }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --background: #0c0c0f;
+  --ink: #f4f4f5;
+  --gray-50: #18181b;
+  --gray-100: #1e1e22;
+  --gray-200: #2a2a30;
+  --gray-300: #3a3a42;
+  --gray-400: #8a8a92;
+  --gray-500: #a0a0a8;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --background: #fff;
+  --ink: #0a0a0a;
+  --gray-50: #fafafa;
+  --gray-100: #f5f5f5;
+  --gray-200: #e9e9e9;
+  --gray-300: #d4d4d4;
+  --gray-400: #a3a3a3;
+  --gray-500: #737373;
 }
 
 *,
@@ -167,79 +191,8 @@ a:focus-visible {
   padding: 0 1rem;
 }
 
-.hero {
-  position: relative;
-  isolation: isolate;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  justify-items: stretch;
-  align-content: center;
-  gap: 1.25rem;
-  min-height: min(570px, calc(100svh - 56px));
-  padding: 5rem 0 6rem;
-}
-
 .hero-copy {
   min-width: 0;
-  order: 1;
-}
-
-.profile-photo-placeholder,
-.profile-photo {
-  order: 0;
-}
-
-.hero::after {
-  position: absolute;
-  z-index: -1;
-  top: 13%;
-  right: -1rem;
-  width: min(42vw, 260px);
-  aspect-ratio: 1;
-  background-image: radial-gradient(circle, var(--ink) 1px, transparent 1.2px);
-  background-size: 9px 9px;
-  content: "";
-  mask-image: radial-gradient(ellipse at center, #000 0%, transparent 68%);
-  opacity: 0.12;
-}
-
-.profile-photo-switch {
-  position: relative;
-  width: min(100%, 132px);
-  justify-self: center;
-  aspect-ratio: 4 / 5;
-  border: 1px solid var(--gray-200);
-  border-radius: 10px;
-  cursor: pointer;
-  overflow: hidden;
-}
-
-.profile-photo {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: opacity 250ms ease;
-}
-
-.profile-photo-covered {
-  opacity: 0;
-}
-
-.profile-photo-switch:hover .profile-photo-covered,
-.profile-photo-switch:focus .profile-photo-covered {
-  opacity: 1;
-}
-
-.profile-photo-switch:hover .profile-photo-original,
-.profile-photo-switch:focus .profile-photo-original {
-  opacity: 0;
-}
-
-.profile-photo-switch:focus-visible {
-  outline: 2px solid var(--ink);
-  outline-offset: 4px;
 }
 
 .eyebrow,
@@ -294,10 +247,6 @@ h1 {
   text-transform: lowercase;
 }
 
-.hero h1 {
-  text-transform: none;
-}
-
 h2 {
   margin-bottom: 1rem;
   font-size: clamp(1.25rem, 3vw, 1.55rem);
@@ -349,6 +298,17 @@ h3 {
   font: 12px/1.6 "Geist Mono", ui-monospace, monospace;
   text-decoration: none;
   transition: color 200ms, text-decoration-color 200ms;
+}
+
+.social-links svg {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.6;
 }
 
 .text-link {
@@ -475,6 +435,57 @@ body a:focus-visible {
   border-top: 1px solid var(--gray-200);
 }
 
+.theme-dock {
+  position: fixed;
+  z-index: 8;
+  bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px));
+  left: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.2rem;
+  border: 1px solid var(--gray-200);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--background) 94%, transparent);
+  box-shadow: 0 8px 22px -14px rgb(0 0 0 / 25%);
+  backdrop-filter: blur(12px);
+}
+
+.theme-button {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--gray-500);
+  cursor: pointer;
+  transition: background-color 200ms, color 200ms;
+}
+
+.theme-button:hover,
+.theme-button[aria-pressed="true"] {
+  background: var(--gray-100);
+  color: var(--ink);
+}
+
+.theme-button:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.theme-button svg {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.6;
+}
+
 .page-link {
   display: flex;
   align-items: baseline;
@@ -505,185 +516,12 @@ body a:focus-visible {
   color: var(--gray-500);
 }
 
-.tour-replay-wrap {
-  display: flex;
-  justify-content: center;
-  padding: 1.5rem 0 2rem;
-}
-
-.tour-replay {
-  padding: 0.55rem 0.8rem;
-  border: 1px solid var(--gray-200);
-  border-radius: 6px;
-  background: transparent;
-  color: var(--gray-500);
-  cursor: pointer;
-  font: 10px "Geist Mono", ui-monospace, monospace;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  transition: border-color 200ms, background-color 200ms, color 200ms;
-}
-
-.tour-replay:hover {
-  border-color: var(--ink);
-  background: var(--gray-50);
-  color: var(--ink);
-}
-
-.tour-replay:focus-visible,
-.tour-card button:focus-visible {
-  outline: 2px solid var(--ink);
-  outline-offset: 4px;
-}
-
-.tour-card button:focus-visible {
-  outline-color: #0a0a0a;
-}
-
-.tour-highlight {
-  position: relative;
-  z-index: 1;
-}
-
-.experience-preview-row.tour-highlight {
-  background: var(--gray-50);
-}
-
-.social-links.tour-highlight a {
-  color: var(--ink);
-}
-
-.sidebar-nav.tour-highlight a,
-.mobile-nav.tour-highlight a {
-  color: var(--ink);
-}
-
-.tour-card {
-  position: fixed;
-  z-index: 1002;
-  width: min(14rem, calc(100vw - 2rem));
-  padding: 0.55rem 0.7rem;
-  border: 1px solid #e9e9e9;
-  border-radius: 16px;
-  background: #fff;
-  color: #0a0a0a;
-  box-shadow: 0 10px 28px -16px rgb(0 0 0 / 45%);
-}
-
-.tour-card[hidden],
-.tour-cursor[hidden] {
-  display: none;
-}
-
-.tour-card-label {
-  margin: 0 0 0.08rem;
-  color: #737373;
-  font-size: 10px;
-  font-weight: 600;
-}
-
-.tour-card-message {
-  margin: 0;
-  color: #0a0a0a;
-  font-size: 13px;
-  line-height: 1.4;
-}
-
-.tour-card-controls {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-  margin-top: 0.4rem;
-}
-
-.tour-card button {
-  padding: 0.2rem 0;
-  border: 0;
-  background: transparent;
-  color: #737373;
-  cursor: pointer;
-  font: 11px "Geist Mono", ui-monospace, monospace;
-}
-
-.tour-card button:hover {
-  color: #0a0a0a;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-.tour-card .tour-skip {
-  margin-left: auto;
-  background: transparent;
-  color: #737373;
-}
-
-.tour-card .tour-skip:hover {
-  color: #0a0a0a;
-}
-
-.tour-cursor {
-  position: fixed;
-  z-index: 1003;
-  width: 30px;
-  height: 35px;
-  color: var(--ink);
-  filter: drop-shadow(0 1px 1px var(--background));
-  pointer-events: none;
-  transition: left 700ms cubic-bezier(0.16, 1, 0.3, 1), top 700ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.tour-cursor svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-  fill: #fff;
-  stroke: #111;
-  stroke-linejoin: round;
-  stroke-width: 12;
-}
-
 .content-block {
   padding: 0 0 3.5rem;
 }
 
 .content-block p {
   max-width: 39rem;
-}
-
-.experience-preview-row {
-  display: grid;
-  grid-template-columns: 7rem minmax(0, 1fr) minmax(0, auto);
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem 0.4rem;
-  border-top: 1px solid var(--gray-200);
-  border-bottom: 1px solid var(--gray-200);
-  transition: background-color 200ms ease-out;
-}
-
-.experience-preview-row:hover {
-  background: var(--gray-50);
-}
-
-.experience-preview-row p,
-.experience-preview-row h3 {
-  margin: 0;
-}
-
-.experience-preview-year {
-  color: var(--gray-500);
-  font: 1rem "Geist Mono", ui-monospace, monospace;
-}
-
-.experience-preview-row h3 {
-  font-size: 1rem;
-  font-weight: 500;
-}
-
-.experience-preview-company {
-  color: var(--gray-500);
-  font-size: 0.95rem;
-  text-align: right;
 }
 
 .experience-entry {
@@ -882,6 +720,10 @@ body a:focus-visible {
   50% { opacity: 0.25; }
 }
 
+@keyframes clock-glow {
+  50% { box-shadow: 0 0 0 5px color-mix(in srgb, var(--ink) 4%, transparent); }
+}
+
 @media (max-width: 380px) {
   .mobile-header {
     min-height: 72px;
@@ -917,21 +759,6 @@ body a:focus-visible {
 }
 
 @media (max-width: 480px) {
-  .experience-preview-row {
-    grid-template-columns: 3.2rem minmax(0, 1fr);
-    gap: 0.35rem 0.8rem;
-    padding: 0.85rem 0;
-  }
-
-  .experience-preview-row h3 {
-    grid-column: 2;
-  }
-
-  .experience-preview-company {
-    grid-column: 2;
-    text-align: left;
-  }
-
   .experience-entry {
     grid-template-columns: 3rem minmax(0, 1fr);
     gap: 0.85rem;
@@ -960,7 +787,7 @@ body a:focus-visible {
     display: flex;
     width: var(--sidebar-width);
     flex-direction: column;
-    padding: 2rem 1.5rem;
+    padding: 2rem 1.5rem 5rem;
     border-right: 1px solid var(--gray-200);
   }
 
@@ -988,25 +815,6 @@ body a:focus-visible {
     margin-top: auto;
   }
 
-  .hero {
-    grid-template-columns: 160px minmax(0, 1fr);
-    align-items: start;
-    gap: 1.5rem;
-  }
-
-  .hero-copy {
-    grid-column: 2;
-    grid-row: 1;
-  }
-
-  .profile-photo-switch {
-    grid-column: 1;
-    grid-row: 1;
-    width: 160px;
-    margin-top: calc(10px * 1.6 + 1.5rem);
-    justify-self: start;
-  }
-
   .site-main {
     width: var(--column);
     margin-left: calc(var(--sidebar-width) + (100vw - var(--sidebar-width) - var(--column)) / 2);
@@ -1028,57 +836,766 @@ body a:focus-visible {
     transition-duration: 0.01ms !important;
   }
 
-  .tour-cursor {
-    transition: none;
-  }
 }
 
-.game-launcher {
-  position: fixed;
-  z-index: 8;
-  right: 1.25rem;
-  bottom: 1.25rem;
+.site-main.portfolio-main {
+  --column: 42rem;
+  width: min(100%, var(--column));
+}
+
+.site-footer.portfolio-footer {
+  --column: 42rem;
+  width: min(100%, var(--column));
+}
+
+.portfolio-hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr);
+  align-items: start;
+  gap: 1rem;
+  min-height: auto;
+  padding: 3.5rem 0 4.5rem;
+}
+
+.timezone-clock {
+  position: absolute;
+  top: 0.75rem;
+  right: 0;
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  padding: 0.65rem 0.85rem;
-  border: 1px solid var(--gray-300);
+  gap: 0.55rem;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid var(--gray-200);
   border-radius: 999px;
-  background: var(--background);
-  color: var(--ink);
-  box-shadow: 0 8px 22px -14px rgb(0 0 0 / 25%);
-  cursor: pointer;
-  font: 10px "Geist Mono", ui-monospace, monospace;
+  background: var(--gray-50);
+  color: var(--gray-500);
+  font: 9px/1.5 "Geist Mono", ui-monospace, monospace;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  transition: transform 200ms, border-color 200ms, background-color 200ms, color 200ms;
 }
 
-.game-launcher:hover {
-  transform: translateY(-2px);
+.timezone-clock .status-dot {
+  width: 6px;
+  height: 6px;
+  flex: none;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ink) 12%, transparent);
+  animation: clock-glow 1.8s ease-in-out infinite;
+}
+
+.portfolio-hero .hero-copy {
+  min-width: 0;
+  grid-column: 2;
+  grid-row: 1;
+  order: initial;
+}
+
+.hero-portrait {
+  width: 88px;
+  aspect-ratio: 4 / 5;
+  grid-column: 1;
+  grid-row: 1;
+  margin: 2.2rem 0 0;
+  overflow: hidden;
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+}
+
+.hero-portrait img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 38%;
+}
+
+.portfolio-hero h1 {
+  max-width: none;
+  margin-bottom: 0.6rem;
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  letter-spacing: -0.08em;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+.portfolio-hero .eyebrow {
+  gap: 0.45rem;
+  margin-bottom: 0.9rem;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+}
+
+.hero-role-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.38rem;
+  margin-inline: 0.12rem;
+  padding: 0.08rem 0.55rem;
+  border: 1px solid var(--gray-200);
+  border-radius: 999px;
+  background: var(--gray-50);
+  color: var(--ink);
+  font-size: 0.95em;
+  font-weight: 500;
+  line-height: 1.65;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+
+.hero-role-chip svg {
+  width: 1rem;
+  height: 1rem;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.6;
+}
+
+.portfolio-hero .hero-intro {
+  max-width: 25rem;
+  margin-bottom: 1rem;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.hero-hobbies {
+  max-width: 25rem;
+  margin: 0 0 1.25rem;
+  color: var(--gray-500);
+  font-size: 12px;
+  line-height: 2.2;
+}
+
+.hobby-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin: 0 0.1rem;
+  padding: 0.08rem 0.5rem;
+  border: 1px solid var(--gray-200);
+  border-radius: 999px;
+  background: var(--gray-50);
+  color: var(--ink);
+  line-height: 1.7;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+
+.hobby-chip svg {
+  width: 0.9rem;
+  height: 0.9rem;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.6;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1.2rem;
+}
+
+.filter-button:focus-visible,
+.work-preview:focus-visible,
+.video-dialog button:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 4px;
+}
+
+.showreel-button {
+  min-height: 2rem;
+  padding: 0.35rem 0.5rem;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.hero-socials {
+  gap: 0.4rem 0.8rem;
+  margin-bottom: 0.7rem;
+}
+
+.hero-socials a {
+  font-size: 10px;
+}
+
+.hero-contact {
+  max-width: 25rem;
+  margin-top: 1.25rem;
+}
+
+.hero-contact > p {
+  margin: 0 0 0.5rem;
+  color: var(--gray-500);
+  font-size: 12px;
+}
+
+.hero-email {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: var(--ink);
+  font: 11px/1.6 "Geist Mono", ui-monospace, monospace;
+  overflow-wrap: anywhere;
+  text-decoration: none;
+}
+
+.hero-email svg {
+  width: 15px;
+  height: 15px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.6;
+}
+
+.portfolio-section {
+  padding: 2.5rem 0 3rem;
+  border-top: 1px solid var(--gray-200);
+}
+
+.section-heading {
+  margin-bottom: 1.35rem;
+}
+
+.section-heading > .section-label {
+  margin-bottom: 0.8rem;
+  color: var(--gray-400);
+  letter-spacing: 0.02em;
+}
+
+.section-heading-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.4rem 1.2rem;
+}
+
+.section-heading-row h2 {
+  margin: 0;
+}
+
+.section-heading-row > p {
+  max-width: 30rem;
+  margin: 0;
+  color: var(--gray-500);
+  font-size: 13px;
+}
+
+.work-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 1.3rem 0 1rem;
+}
+
+.filter-button {
+  min-height: 2.15rem;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid var(--gray-200);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--gray-500);
+  cursor: pointer;
+  font: 9px "Geist Mono", ui-monospace, monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: background-color 200ms, border-color 200ms, color 200ms;
+}
+
+.filter-button:hover,
+.filter-button[aria-pressed="true"] {
   border-color: var(--ink);
   background: var(--ink);
   color: var(--background);
 }
 
-.game-launcher:focus-visible,
-.runner-dialog button:focus-visible {
-  outline: 2px solid var(--ink);
-  outline-offset: 4px;
+.work-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
 }
 
-.game-launcher svg {
-  width: 18px;
-  height: 18px;
+.work-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  background: var(--background);
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms ease;
+}
+
+.work-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 36px -20px rgb(0 0 0 / 40%);
+}
+
+.work-card[hidden] {
+  display: none;
+}
+
+.work-preview {
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-bottom: 1px solid var(--gray-200);
+  background: var(--gray-50);
+  color: var(--ink);
+  cursor: pointer;
+  text-align: left;
+  text-decoration: none;
+}
+
+.work-thumbnail,
+.work-thumbnail-placeholder {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.work-thumbnail {
+  object-fit: contain;
+  transform: none;
+}
+
+.work-card:hover .work-thumbnail {
+  transform: none;
+}
+
+.work-thumbnail-placeholder {
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 1rem;
+  background:
+    radial-gradient(ellipse at 70% 30%, color-mix(in srgb, var(--ink) 7%, transparent), transparent 55%),
+    linear-gradient(140deg, var(--gray-50), var(--background));
+  text-align: center;
+}
+
+.work-card[data-format="portrait"] .work-preview {
+  width: min(100%, 15rem);
+  margin-inline: auto;
+}
+
+.work-card[data-format="square"] .work-preview {
+  width: min(100%, 22rem);
+  margin-inline: auto;
+}
+
+.work-gallery {
+  align-items: start;
+}
+
+.work-gallery .work-card .work-preview {
+  aspect-ratio: 4 / 3;
+}
+
+.work-gallery .work-card[data-format="portrait"] .work-preview {
+  aspect-ratio: 9 / 16;
+}
+
+.home-work-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 0.75rem;
+}
+
+.home-work-grid .work-card .work-preview {
+  aspect-ratio: 4 / 3;
+}
+
+.work-thumbnail-placeholder .meta {
+  margin: 0;
+}
+
+.thumbnail-title {
+  max-width: 18ch;
+  font-size: clamp(0.95rem, 3vw, 1.15rem);
+  letter-spacing: -0.03em;
+}
+
+.thumbnail-open {
+  color: var(--gray-500);
+  font: 9px "Geist Mono", ui-monospace, monospace;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.work-placeholder-note {
+  margin: 1rem 0 0;
+}
+
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--gray-200);
+  border-left: 1px solid var(--gray-200);
+}
+
+.service-card {
+  min-width: 0;
+  padding: 1rem;
+  border-right: 1px solid var(--gray-200);
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.service-card .meta {
+  margin-bottom: 0.75rem;
+}
+
+.service-card h3 {
+  margin-bottom: 0.4rem;
+  font-size: 0.95rem;
+}
+
+.service-description {
+  margin: 0;
+  color: var(--gray-500);
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.secondary-services {
+  margin-top: 2rem;
+  padding: 1.25rem;
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  background: var(--gray-50);
+}
+
+.secondary-services > .section-label {
+  margin-bottom: 0.6rem;
+}
+
+.secondary-services > h3 {
+  margin-bottom: 0.45rem;
+}
+
+.secondary-services > h2 {
+  margin-bottom: 0.45rem;
+  font-size: 1.15rem;
+}
+
+.secondary-copy {
+  max-width: 38rem;
+  margin-bottom: 1.2rem;
+  color: var(--gray-500);
+  font-size: 13px;
+}
+
+.secondary-service-columns {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.secondary-service-columns h4,
+.profile-list-heading h3 {
+  margin: 0 0 0.7rem;
+  color: var(--gray-500);
+  font: 10px/1.6 "Geist Mono", ui-monospace, monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.secondary-service-columns h3 {
+  margin: 0 0 0.7rem;
+  color: var(--gray-500);
+  font: 10px/1.6 "Geist Mono", ui-monospace, monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.tag-list {
+  gap: 0.45rem;
+}
+
+.tag-list li {
+  border-radius: 999px;
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+.about-layout {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.about-photo {
+  width: min(100%, 15rem);
+  margin: 0;
+}
+
+.about-photo img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border: 1px solid var(--gray-200);
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.about-photo figcaption {
+  margin-top: 0.55rem;
+}
+
+.about-copy > p {
+  max-width: 39rem;
+  margin-bottom: 1.5rem;
+  color: var(--gray-500);
+}
+
+.about-page-content {
+  max-width: 40rem;
+}
+
+.about-page-bio {
+  margin: 0;
+  color: var(--gray-500);
+  font-size: 1rem;
+  line-height: 1.85;
+}
+
+.about-page-content .profile-list {
+  margin-top: 2rem;
+}
+
+.services-page-content .service-grid {
+  grid-template-columns: minmax(0, 1fr);
+  border-top: 1px solid var(--gray-200);
+  border-left: 0;
+}
+
+.services-page-content .service-card {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 0.8fr) minmax(0, 1.2fr);
+  align-items: baseline;
+  gap: 0.6rem 1rem;
+  padding: 1.1rem 0;
+  border-right: 0;
+}
+
+.services-page-content .service-card .meta {
+  margin: 0;
+}
+
+.services-page-content .service-card h3 {
+  margin: 0;
+}
+
+.services-page-content .service-description {
+  max-width: 27rem;
+}
+
+.home-preview {
+  margin-top: 2.5rem;
+  padding: 2rem 0 0;
+  border-top: 1px solid var(--gray-200);
+}
+
+.home-experience {
+  padding-top: 2rem;
+  border-top: 0;
+}
+
+.home-preview .section-heading {
+  margin-bottom: 1rem;
+}
+
+.home-preview .section-heading > .section-label {
+  margin-bottom: 0.5rem;
+}
+
+.home-preview .section-heading-row h2 {
+  font-size: 1.2rem;
+}
+
+.experience-preview-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.experience-preview-heading > .section-label {
+  margin: 0;
+  color: var(--gray-400);
+}
+
+.experience-preview-heading .text-link {
+  color: var(--gray-500);
+  text-decoration: none;
+}
+
+.experience-preview-list {
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--gray-200);
+  list-style: none;
+}
+
+.experience-preview-row {
+  display: grid;
+  grid-template-columns: minmax(7.5rem, 0.55fr) minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.experience-preview-row p,
+.experience-preview-row h3 {
+  margin: 0;
+}
+
+.experience-preview-year {
+  color: var(--gray-500);
+  font: 0.75rem "Geist Mono", ui-monospace, monospace;
+  white-space: nowrap;
+}
+
+.experience-preview-row h3 {
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.experience-preview-company {
+  color: var(--gray-500);
+  font-size: 0.8125rem;
+  text-align: right;
+}
+
+.home-tools {
+  margin-top: 1.5rem;
+}
+
+.home-tools > .section-label {
+  margin-bottom: 0.7rem;
+}
+
+.home-recommendations {
+  margin-bottom: 2.5rem;
+}
+
+.recommendations-note {
+  margin: 0;
+  color: var(--gray-500);
+  font-size: 13px;
+}
+
+.experience-page-content .timeline-item {
+  padding-block: 1.2rem;
+}
+
+.profile-list {
+  margin-top: 1.6rem;
+}
+
+.profile-list-heading {
+  display: block;
+}
+
+.experience-block {
+  margin-top: 2.2rem;
+}
+
+.timeline {
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--gray-200);
+  list-style: none;
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: minmax(6.5rem, 0.45fr) minmax(0, 1fr);
+  gap: 0.5rem 1rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.timeline-date {
+  margin: 0;
+  color: var(--gray-500);
+  font: 10px/1.7 "Geist Mono", ui-monospace, monospace;
+}
+
+.timeline-detail h4 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.timeline-role {
+  margin: 0.15rem 0 0;
+  color: var(--gray-500);
+  font-size: 12px;
+}
+
+.contact-section {
+  padding-bottom: 3.5rem;
+}
+
+.contact-layout {
+  display: grid;
+  gap: 1.2rem;
+  margin: 1.4rem 0 1.5rem;
+}
+
+.contact-layout .meta,
+.contact-section > div > .meta {
+  margin-bottom: 0.35rem;
+}
+
+.contact-address {
+  margin: 0;
+  font-size: 12px;
+}
+
+.contact-location {
+  margin: 0;
+  color: var(--gray-500);
+  font-size: 13px;
+}
+
+.contact-socials {
+  gap: 0.65rem 1.3rem;
+  margin: 0;
+}
+
+.contact-socials a {
+  gap: 0.45rem;
+}
+
+.contact-socials svg {
+  width: 15px;
+  height: 15px;
   fill: none;
   stroke: currentColor;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 1.4;
+  stroke-width: 1.5;
 }
 
-.runner-dialog {
-  width: min(24rem, calc(100vw - 2rem));
+.portfolio-footer .footer-note {
+  text-decoration: none;
+}
+
+.video-dialog {
+  width: min(56rem, calc(100vw - 2rem));
   max-width: none;
   max-height: calc(100dvh - 2rem);
   padding: 0;
@@ -1090,45 +1607,40 @@ body a:focus-visible {
   box-shadow: 0 40px 90px -20px rgb(0 0 0 / 35%);
 }
 
-.runner-dialog[open] {
-  animation: runner-enter 200ms cubic-bezier(0.16, 1, 0.3, 1) both;
+.video-dialog[open] {
+  animation: modal-enter 200ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-.runner-dialog::backdrop {
-  background: rgb(10 10 10 / 30%);
+.video-dialog::backdrop {
+  background: rgb(10 10 10 / 35%);
   backdrop-filter: blur(5px);
 }
 
-.runner-panel {
-  padding: 1.4rem;
+.video-dialog-panel {
+  padding: 1rem;
 }
 
-.runner-header {
+.video-dialog-header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 1rem;
-  margin-bottom: 1.1rem;
+  margin-bottom: 0.9rem;
 }
 
-.runner-kicker {
-  margin: 0 0 0.35rem;
-  color: var(--gray-500);
-  font: 9px/1.5 "Geist Mono", ui-monospace, monospace;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+.video-dialog-header .meta {
+  margin-bottom: 0.35rem;
 }
 
-.runner-header h2 {
+.video-dialog-header h2 {
   margin: 0;
-  font-size: 1.2rem;
-  letter-spacing: -0.03em;
+  font-size: 1.15rem;
 }
 
-.runner-close {
+.video-dialog-close {
   display: grid;
-  width: 2rem;
-  height: 2rem;
+  width: 2.5rem;
+  height: 2.5rem;
   flex: 0 0 auto;
   place-items: center;
   border: 1px solid var(--gray-200);
@@ -1136,119 +1648,254 @@ body a:focus-visible {
   background: transparent;
   color: var(--gray-500);
   cursor: pointer;
-  font: 20px/1 "Geist", system-ui, sans-serif;
+  font: 22px/1 "Geist", system-ui, sans-serif;
 }
 
-.runner-close:hover {
+.video-dialog-close:hover {
   border-color: var(--ink);
   color: var(--ink);
 }
 
-.runner-scores {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 0.55rem;
+.video-dialog-content {
+  overflow: hidden;
+  border: 1px solid var(--gray-200);
+  border-radius: 10px;
+  background: var(--gray-50);
 }
 
-.runner-scores p,
-.runner-scores output {
-  margin: 0;
-  font: 10px/1.6 "Geist Mono", ui-monospace, monospace;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.runner-scores p {
-  color: var(--gray-500);
-}
-
-.runner-scores output {
-  margin-left: 0.3rem;
-  color: var(--ink);
-}
-
-#runner-canvas {
+.video-embed {
   display: block;
   width: 100%;
-  height: auto;
-  border: 1px solid var(--gray-200);
-  border-radius: 8px;
-  image-rendering: pixelated;
-  touch-action: manipulation;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  background: #000;
 }
 
-.runner-status {
-  min-height: 2.5em;
-  margin: 0.8rem 0;
+.video-empty-state {
+  display: grid;
+  min-height: 14rem;
+  align-content: center;
+  justify-items: center;
+  gap: 0.4rem;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.video-empty-state .meta,
+.video-empty-state p:last-child {
+  margin: 0;
+}
+
+.video-empty-state p:last-child {
+  max-width: 30rem;
   color: var(--gray-500);
-  font-size: 12px;
+  font-size: 13px;
 }
 
-.runner-controls {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.55rem;
+.reveal-ready {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 600ms cubic-bezier(0.16, 1, 0.3, 1), transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.runner-controls button {
-  min-height: 2.25rem;
-  padding: 0.45rem 0.75rem;
-  border: 1px solid var(--ink);
-  border-radius: 6px;
-  background: var(--ink);
-  color: var(--background);
-  cursor: pointer;
-  font: 10px "Geist Mono", ui-monospace, monospace;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  transition: background-color 200ms, color 200ms, border-color 200ms;
+.reveal-ready.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.runner-controls button:hover:not(:disabled) {
-  background: var(--background);
-  color: var(--ink);
+@media (min-width: 560px) {
+  .work-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .service-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .secondary-service-columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .contact-layout {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .video-dialog-panel {
+    padding: 1.4rem;
+  }
 }
 
-.runner-controls button:disabled {
-  border-color: var(--gray-200);
-  background: var(--gray-50);
-  color: var(--gray-400);
-  cursor: not-allowed;
+@media (min-width: 800px) {
+  .portfolio-hero {
+    grid-template-columns: 128px minmax(0, 1fr);
+    gap: 1.2rem;
+    padding-top: 4.5rem;
+    padding-bottom: 5rem;
+  }
+
+  .portfolio-hero .hero-copy {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .hero-portrait {
+    width: 128px;
+    margin-top: 2rem;
+  }
+
+  .work-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.1rem;
+  }
+
+  .home-work-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .about-layout {
+    grid-template-columns: minmax(10rem, 0.34fr) minmax(0, 1fr);
+    align-items: start;
+    gap: 2rem;
+  }
 }
 
-.runner-hint {
-  margin-left: auto;
-  color: var(--gray-400);
-  font: 9px "Geist Mono", ui-monospace, monospace;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+@media (min-width: 1024px) {
+  .site-main.portfolio-main {
+    width: var(--column);
+    margin-left: calc(var(--sidebar-width) + (100vw - var(--sidebar-width) - var(--column)) / 2);
+  }
+
+  .site-footer.portfolio-footer {
+    width: var(--column);
+    margin-left: calc(var(--sidebar-width) + (100vw - var(--sidebar-width) - var(--column)) / 2);
+  }
 }
 
-@keyframes runner-enter {
+@media (max-width: 1023px) {
+  .site-footer.portfolio-footer {
+    padding-bottom: 5rem;
+  }
+}
+
+@media (min-width: 560px) and (max-width: 799px) {
+  .portfolio-hero {
+    grid-template-columns: 112px minmax(0, 1fr);
+    gap: 1.25rem;
+  }
+
+  .hero-portrait {
+    width: 112px;
+    margin-top: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .timezone-clock {
+    top: 0.6rem;
+    font-size: 8px;
+  }
+
+  .theme-dock {
+    bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+    left: 0.75rem;
+  }
+
+  .portfolio-hero {
+    grid-template-columns: 72px minmax(0, 1fr);
+    gap: 0.75rem 1rem;
+  }
+
+  .portfolio-hero .hero-copy {
+    display: contents;
+  }
+
+  .portfolio-hero h1 {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    font-size: clamp(1.25rem, 6vw, 1.65rem);
+  }
+
+  .hero-portrait {
+    grid-column: 1;
+    grid-row: 2 / span 3;
+    width: 72px;
+    margin: 0;
+  }
+
+  .portfolio-hero .eyebrow {
+    grid-column: 2;
+    grid-row: 2;
+    margin: 0;
+  }
+
+  .portfolio-hero .hero-intro {
+    grid-column: 2;
+    grid-row: 4;
+    margin: 0;
+  }
+
+  .portfolio-hero .hero-hobbies {
+    grid-column: 1 / -1;
+    grid-row: 5;
+  }
+
+  .portfolio-hero .hero-socials {
+    grid-column: 1 / -1;
+    grid-row: 6;
+  }
+
+  .portfolio-hero .hero-contact {
+    grid-column: 1 / -1;
+    grid-row: 7;
+  }
+
+  .portfolio-hero h1 {
+    font-size: clamp(1.25rem, 6vw, 1.65rem);
+  }
+
+  .experience-preview-row {
+    grid-template-columns: 5.5rem minmax(0, 1fr);
+    gap: 0.35rem 0.8rem;
+    padding: 0.85rem 0;
+  }
+
+  .experience-preview-year {
+    font-size: 0.75rem;
+    white-space: nowrap;
+  }
+
+  .experience-preview-company {
+    grid-column: 2;
+    text-align: left;
+  }
+
+  .service-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .timeline-item {
+    grid-template-columns: minmax(5.5rem, 0.4fr) minmax(0, 1fr);
+    gap: 0.5rem 0.75rem;
+  }
+
+  .services-page-content .service-card {
+    grid-template-columns: 1.5rem minmax(0, 1fr);
+    gap: 0.25rem 0.75rem;
+  }
+
+  .services-page-content .service-description {
+    grid-column: 2;
+  }
+}
+
+@keyframes modal-enter {
   from { opacity: 0; transform: scale(0.95); }
   to { opacity: 1; transform: scale(1); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .runner-dialog[open] {
-    animation: none;
-  }
-}
-
-@media (max-width: 380px) {
-  .game-launcher {
-    right: 0.75rem;
-    bottom: 0.75rem;
-  }
-
-  .runner-panel {
-    padding: 1.1rem;
-  }
-
-  .runner-hint {
-    width: 100%;
-    margin-left: 0;
+  .reveal-ready {
+    opacity: 1;
+    transform: none;
   }
 }
