@@ -60,6 +60,33 @@ window.portfolioData = {
   ],
   projects: [
     {
+      title: "Color Graded Mouse",
+      category: "Video",
+      format: "landscape",
+      aspectRatio: "16 / 9",
+      videoUrl: "https://vimeo.com/1246785387",
+      thumbnail: "https://i.vimeocdn.com/video/2226317975-53190e0b75034c5868cc09fa6e31a50711b7f7415c38d04b0e8e4819d45548e8-d_295x166?region=us",
+      thumbnailAlt: "Color Graded Mouse video thumbnail"
+    },
+    {
+      title: "BNL Portfolio",
+      category: "Video",
+      format: "landscape",
+      aspectRatio: "16 / 9",
+      videoUrl: "https://vimeo.com/1246783519",
+      thumbnail: "https://i.vimeocdn.com/video/2226306905-11b1086f6e3588bf2aa88e6f4eafccc0ece67a19b970f188ccde1b7a71443bdc-d_1280?region=us",
+      thumbnailAlt: "BNL Portfolio video thumbnail"
+    },
+    {
+      title: "Sample 1",
+      category: "Video",
+      format: "landscape",
+      aspectRatio: "16 / 9",
+      videoUrl: "https://vimeo.com/1246796229",
+      thumbnail: "https://i.vimeocdn.com/video/2226325442-c5e99f20c924e03ca18bc8ba3d9b2a0e96ff5f8a83fcdb22cce31161835ecb0b-d_1280?region=us",
+      thumbnailAlt: "Sample 1 video thumbnail"
+    },
+    {
       title: "Short film",
       context: "Short film",
       category: "Short film",
@@ -82,6 +109,23 @@ window.portfolioData = {
       videoUrl: "https://www.youtube.com/watch?v=QF1s4Amj7cA&start=22",
       thumbnail: "https://img.youtube.com/vi/QF1s4Amj7cA/hqdefault.jpg",
       thumbnailAlt: "Podcast video thumbnail"
+    }
+  ],
+  recommendations: [
+    {
+      name: "Zack Bordeaux",
+      details: "Content Creator · Campground Accounting",
+      quote: "Gem is an amazing video editor to work with. What I appreciate most about him is his creativity and how he pays attention to even the smallest details. He knows how to turn ordinary footage into something engaging and enjoyable to watch. He's also very open to feedback, easy to communicate with, and genuinely passionate about what he does. You can tell he puts a lot of thought and effort into every project. I'd happily recommend Gem to anyone looking for a reliable and creative video editor!"
+    },
+    {
+      name: "Lakayla Fridie",
+      details: "Lawyers Fridie Law",
+      quote: "Working with Gem has been a great experience! He's creative, reliable, and really knows how to bring ideas to life through video. He pays attention to the little details and makes sure the final output looks polished and professional. He's also easy to work with and always puts effort into delivering quality work. I'd definitely recommend him to anyone looking for a skilled video editor!"
+    },
+    {
+      name: "Nehal Shah",
+      details: "Camping Gear Junkie · Owner",
+      quote: "Gem is a talented video editor who knows how to turn raw footage into engaging content. I appreciate his creativity, attention to detail, and ability to understand the kind of video I'm looking for. He's responsive, easy to communicate with, and takes pride in his work. If you're looking for someone who can make your videos stand out, I'd highly recommend Gem!"
     }
   ],
   showreelUrl: "",

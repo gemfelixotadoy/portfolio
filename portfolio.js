@@ -62,6 +62,45 @@
     });
   }
 
+  function renderRecommendations(id, preview = false) {
+    const grid = byId(id);
+    if (!grid) return;
+
+    data.recommendations.forEach((recommendation) => {
+      const card = element(
+        "article",
+        preview ? "recommendation-card recommendation-card--preview" : "recommendation-card"
+      );
+      const quoteMark = element("span", "recommendation-quote-mark", "“");
+      quoteMark.setAttribute("aria-hidden", "true");
+
+      const initials = recommendation.name
+        .split(/\s+/)
+        .filter(Boolean)
+        .slice(0, 2)
+        .map((part) => part[0])
+        .join("")
+        .toUpperCase();
+      const avatar = element("span", "recommendation-avatar", initials);
+      avatar.setAttribute("aria-hidden", "true");
+
+      const author = element("div", "recommendation-author");
+      author.append(
+        element("h3", "recommendation-name", recommendation.name),
+        element("p", "recommendation-role", recommendation.details)
+      );
+
+      const attribution = element("footer", "recommendation-attribution");
+      attribution.append(avatar, author);
+      card.append(
+        quoteMark,
+        element("blockquote", "recommendation-quote", recommendation.quote),
+        attribution
+      );
+      grid.append(card);
+    });
+  }
+
   function socialIcon(name) {
     const paths = {
       instagram: '<rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="18" cy="6" r="1"></circle>',
@@ -111,8 +150,7 @@
       });
     }
 
-    const projects = isPreview ? data.projects.slice(0, 2) : data.projects;
-    projects.forEach((project, index) => {
+    data.projects.forEach((project, index) => {
       const card = element("article", "work-card");
       card.dataset.category = project.category;
       card.dataset.format = project.format || "landscape";
@@ -128,7 +166,7 @@
         preview.dataset.projectIndex = String(index);
         preview.setAttribute("aria-label", `Open video preview: ${project.title}`);
       }
-      if (project.aspectRatio) preview.style.aspectRatio = project.aspectRatio;
+      if (!isPreview && project.aspectRatio) preview.style.aspectRatio = project.aspectRatio;
       if (project.thumbnailFit) preview.dataset.thumbnailFit = project.thumbnailFit;
       if (project.thumbnail) {
         const image = element("img", "work-thumbnail");
@@ -168,7 +206,7 @@
     renderTags("home-tools-list", data.videoTools);
   }
 
-  function videoContent(url) {
+  function videoContent(url, title = "Video preview") {
     if (!url) return null;
     let parsed;
     try {
@@ -203,7 +241,7 @@
     if (embedUrl) {
       const iframe = element("iframe", "video-embed");
       iframe.src = embedUrl;
-      iframe.title = "Video preview";
+      iframe.title = title;
       iframe.allow = "autoplay; fullscreen; picture-in-picture";
       iframe.allowFullscreen = true;
       iframe.loading = "lazy";
@@ -239,7 +277,7 @@
     function openVideo(name, url, placeholder) {
       title.textContent = name;
       content.replaceChildren();
-      const player = videoContent(url);
+      const player = videoContent(url, name);
       if (player) {
         content.append(player);
       } else {
@@ -371,6 +409,8 @@
   renderServices();
   renderExperience();
   renderExperiencePreview();
+  renderRecommendations("home-recommendation-grid", true);
+  renderRecommendations("recommendation-grid");
   renderSocials();
   renderProjects();
   renderHomeTools();
